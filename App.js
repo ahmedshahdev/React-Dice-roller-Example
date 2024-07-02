@@ -31,6 +31,10 @@ export function App(props) {
     setIsRolling(true);
   };
 
+  const resetHistory = () => {
+    setRollHistory([]);
+  };
+
   return (
     <div className="App">
       <div className="left-side">
@@ -43,11 +47,13 @@ export function App(props) {
       </div>
       <div className="right-side">
         <h3>Roll History</h3>
+        <button onClick={resetHistory}>Reset History</button>
         <ul>
           {rollHistory.map((roll, index) => (
             <li key={index}>{diceFaces[roll - 1]}</li>
           ))}
         </ul>
+
       </div>
     </div>
   );
