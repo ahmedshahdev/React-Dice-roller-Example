@@ -7,6 +7,7 @@ const diceFaces = [
 export function App(props) {
   const [diceNumber, setDiceNumber] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
+  const [rollHistory, setRollHistory] = useState([]);
 
   useEffect(() => {
     let timer;
@@ -19,6 +20,7 @@ export function App(props) {
         clearInterval(timer);
         const finalNumber = Math.floor(Math.random() * 6) + 1;
         setDiceNumber(finalNumber);
+        setRollHistory(prevHistory => [finalNumber, ...prevHistory]);
         setIsRolling(false);
       }, 2000); // Animate for 2 seconds
     }
@@ -31,14 +33,22 @@ export function App(props) {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="left-side">
         <div className="dice">
           {diceFaces[diceNumber - 1]}
         </div>
         <button onClick={rollDice} disabled={isRolling}>
           {isRolling ? 'Rolling...' : 'Roll Dice'}
         </button>
-      </header>
+      </div>
+      <div className="right-side">
+        <h3>Roll History</h3>
+        <ul>
+          {rollHistory.map((roll, index) => (
+            <li key={index}>{diceFaces[roll - 1]}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
